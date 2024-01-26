@@ -26,22 +26,22 @@
             android:name=".BtnDisLikeActivity"
             android:exported="false" />
         <activity
-            android:name=".MatchesActivity"
+            android:name=".Matches.MatchesActivity"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".ForgetPasswordActivity"
+            android:name=".LoginYRegistro.ForgetPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        <activity android:name=".LoginYRegistro" />
-        <activity android:name=".RegistroActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginYRegistro.LoginYRegistro" />
+        <activity android:name=".LoginYRegistro.RegistroActivity" />
+        <activity android:name=".LoginYRegistro.LoginActivity" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".LoginYRegistro.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

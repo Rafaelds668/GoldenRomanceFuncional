@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar  // Asegúrate de importar la clase cor
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.goldenromance.LoginYRegistro.LoginYRegistro
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 

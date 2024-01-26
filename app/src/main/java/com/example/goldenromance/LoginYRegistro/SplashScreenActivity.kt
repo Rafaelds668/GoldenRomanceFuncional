@@ -1,9 +1,10 @@
-package com.example.goldenromance
+package com.example.goldenromance.LoginYRegistro
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import com.example.goldenromance.R
 
 class SplashScreenActivity : AppCompatActivity() {
 
