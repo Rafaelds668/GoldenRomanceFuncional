@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "610102882664",
+    "firebase_url": "https://goldenromance-d90e7-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "goldenromance-d90e7",
+    "storage_bucket": "goldenromance-d90e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610102882664:android:e52e70feb302b166d066dd",
+        "android_client_info": {
+          "package_name": "com.example.goldenromance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAweCMspYHD4JL6tYZg81zMDN0cAcWBfzM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
