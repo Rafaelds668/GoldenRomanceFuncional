@@ -98,7 +98,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="I can share my"
+                android:text="Primera aficion"
                 android:textColor="@color/textColor"
                 android:textSize="20dp" />
 
@@ -117,7 +117,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="I want to borrow"
+                android:text="Segunda aficion"
                 android:textColor="@color/textColor"
                 android:textSize="20dp"/>
 

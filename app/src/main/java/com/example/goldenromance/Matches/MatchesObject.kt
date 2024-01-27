@@ -2,8 +2,8 @@ package com.example.goldenromance.Matches
 
 import com.example.goldenromance.UserObject.UserObject
 
-class MatchesObject (
-    var userId: String,
+class MatchesObject(
+    var userId: String?,
     var name: String,
     var profileImageUrl: String,
     var need: String,

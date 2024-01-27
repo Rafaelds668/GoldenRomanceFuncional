@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/light_grey"
                     android:layout_marginTop="10dp"
-                    android:text="I want to borrow"
+                    android:text="Primara Aficion"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:padding="5dp"/>
@@ -122,7 +122,7 @@
                     android:padding="5dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:text="Cosas de mi"/>
+                    android:text="Segunda Aficion"/>
 
                 <Spinner
                     android:id="@+id/spinner_give_settings"
