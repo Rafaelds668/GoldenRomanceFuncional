@@ -49,6 +49,12 @@ public class arrayAdapter extends ArrayAdapter<cards> {
             mNeedImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.bailar));
         else if (card_item.getNeed().equals("Bingo"))
             mNeedImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.bingo));
+        else if (card_item.getNeed().equals("Chinchon"))
+            mNeedImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.chinchon));
+        else if (card_item.getNeed().equals("Cinquillo"))
+            mNeedImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.cinquillo));
+        else if (card_item.getNeed().equals("Brisca"))
+            mNeedImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.brisca));
         else
             mNeedImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.none));
 
@@ -62,6 +68,12 @@ public class arrayAdapter extends ArrayAdapter<cards> {
             mGiveImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.bailar));
         else if (card_item.getGive().equals("Bingo"))
             mGiveImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.bingo));
+        else if (card_item.getNeed().equals("Chinchon"))
+            mNeedImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.chinchon));
+        else if (card_item.getNeed().equals("Cinquillo"))
+            mNeedImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.cinquillo));
+        else if (card_item.getNeed().equals("Brisca"))
+            mNeedImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.brisca));
         else
             mGiveImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.none));
 

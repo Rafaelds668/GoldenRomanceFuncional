@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.goldenromance.R
+import com.example.goldenromance.chat.ChatActivity
 
 class MatchesViewHolders (itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
 
