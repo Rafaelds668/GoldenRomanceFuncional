@@ -1,4 +1,4 @@
-package com.example.goldenromance.LoginYRegistro
+package com.example.goldenromance.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -62,4 +62,5 @@ class ForgetPasswordActivity : AppCompatActivity() {
         finish()
         return
     }
+
 }

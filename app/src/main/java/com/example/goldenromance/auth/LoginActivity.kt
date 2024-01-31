@@ -1,4 +1,4 @@
-package com.example.goldenromance.LoginYRegistro
+package com.example.goldenromance.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                                 if (mAuth.currentUser?.isEmailVerified == true) {
                                     val i = Intent(
                                         this@LoginActivity,
-                                        MainActivity::class.java
+                                        PerfilActivity::class.java
                                     )
                                     startActivity(i)
                                     finish()
@@ -95,7 +95,7 @@ class LoginActivity : AppCompatActivity() {
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null && user.isEmailVerified && !loginClicked) {
                 spinner.visibility = View.VISIBLE
-                val i = Intent(this@LoginActivity, MainActivity::class.java)
+                val i = Intent(this@LoginActivity, PerfilActivity::class.java)
                 startActivity(i)
                 finish()
                 spinner.visibility = View.GONE

@@ -1,9 +1,10 @@
-package com.example.goldenromance.LoginYRegistro
+package com.example.goldenromance.auth
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
@@ -26,8 +27,6 @@ class RegistroActivity : AppCompatActivity() {
     private lateinit var spinner: ProgressBar
     private lateinit var mEmail: EditText
     private lateinit var mPassword: EditText
-    private lateinit var mName: EditText
-    private lateinit var checkBox: CheckBox
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var firebaseAuthStateListener: FirebaseAuth.AuthStateListener
@@ -62,25 +61,18 @@ class RegistroActivity : AppCompatActivity() {
         mRegistro = findViewById(R.id.registro)
         mEmail = findViewById(R.id.email)
         mPassword = findViewById(R.id.contrasenya)
-        mName = findViewById(R.id.nombre)
-        checkBox = findViewById(R.id.checkbox1)
-        val textView = findViewById<TextView>(R.id.TextView2)
 
-        checkBox.text = ""
-        textView.text = Html.fromHtml("He leído y acepto " + "<a href = 'https://goldenromanceprivacidad.blogspot.com/2024/01/politica-de-privacidad.html'> los Términos y Condiciones</a>")
-        textView.isClickable = true
-        textView.movementMethod = LinkMovementMethod.getInstance()
+
+
 
         mRegistro.setOnClickListener {
             spinner.visibility = View.VISIBLE
 
             val email = mEmail.text.toString()
             val password = mPassword.text.toString()
-            val name = mName.text.toString()
 
-            val tnc = checkBox.isChecked
 
-            if (checkInputs(email, password, name, tnc)) {
+            if (checkInputs(email, password)) {
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this@RegistroActivity, OnCompleteListener<AuthResult> { task ->
                         if (!task.isSuccessful) {
@@ -104,12 +96,9 @@ class RegistroActivity : AppCompatActivity() {
                                                 .child("Users").child(userId ?: "")
 
                                         val userInfo = HashMap<String, Any>()
-                                        userInfo["name"] = name
-                                        userInfo["profileImageUrl"] = "default"
                                         currentUserDb.updateChildren(userInfo)
 
                                         mEmail.setText("")
-                                        mName.setText("")
                                         mPassword.setText("")
 
                                         val i = Intent(this@RegistroActivity, LoginYRegistro::class.java)
@@ -131,8 +120,8 @@ class RegistroActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkInputs(email: String, username: String, password: String, tnc: Boolean): Boolean {
-        if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+    private fun checkInputs(email: String, password: String): Boolean {
+        if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Todos los campos deben ser rellenados", Toast.LENGTH_SHORT).show()
             return false
         }
@@ -142,11 +131,6 @@ class RegistroActivity : AppCompatActivity() {
                 "Email incorrecto, introduce un correo válido y dale a confirmar",
                 Toast.LENGTH_SHORT
             ).show()
-            return false
-        }
-        if (!tnc) {
-            Toast.makeText(this, "Por favor, acepto los Términos y Condiciones", Toast.LENGTH_SHORT)
-                .show()
             return false
         }
         return true
@@ -167,5 +151,17 @@ class RegistroActivity : AppCompatActivity() {
         val i = Intent(this@RegistroActivity, LoginYRegistro::class.java)
         startActivity(i)
         finish()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+       when(item.itemId){
+          R.id.logout->{
+              mAuth.signOut()
+              val intent = Intent(this@RegistroActivity, LoginYRegistro::class.java)
+              startActivity(intent)
+              finish()
+          }
+       }
+        return super.onOptionsItemSelected(item)
     }
 }

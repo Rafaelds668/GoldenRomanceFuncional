@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <meta-data
         android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -20,31 +21,29 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".chat.ChatActivity"
+            android:name=".auth.ForgetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".BtnLikeActivity"
+            android:name=".auth.RegistroActivity"
             android:exported="false" />
         <activity
-            android:name=".BtnDisLikeActivity"
+            android:name=".auth.LoginYRegistro"
             android:exported="false" />
         <activity
-            android:name=".Matches.MatchesActivity"
+            android:name=".activity.LoginYRegistro"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activity.ForgetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginYRegistro.ForgetPasswordActivity"
+            android:name=".auth.PerfilActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".auth.LoginActivity"
             android:exported="false" />
-        <activity android:name=".LoginYRegistro.LoginYRegistro" />
-        <activity android:name=".LoginYRegistro.RegistroActivity" />
-        <activity android:name=".LoginYRegistro.LoginActivity" />
+        <activity android:name=".MainActivity" />
         <activity
-            android:name=".LoginYRegistro.SplashScreenActivity"
+            android:name=".activity.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

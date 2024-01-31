@@ -61,12 +61,14 @@ dependencies {
     implementation(files("libs/show-case-card-view.jar"))
     implementation(files("libs/BottomNavigationViewEx.jar"))
     implementation(files("libs/show-case-card-view.jar"))
+    implementation("com.google.firebase:firebase-firestore:24.10.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
 
     implementation ("com.google.firebase:firebase-auth:17.0.0")
+
     implementation ("com.google.firebase:firebase-storage:17.0.0")
     implementation ("com.google.firebase:firebase-messaging:19.0.0")
 
@@ -74,7 +76,7 @@ dependencies {
 //nuevo
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     //antiguo
-    implementation ("com.github.bumptech.glide:glide:3.7.0")
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation ("com.lorentzos.swipecards:library:1.0.9")
     implementation ("com.google.firebase:firebase-core:17.0.0")
     implementation ("com.google.android.material:material:1.1.0-alpha03")
@@ -93,6 +95,8 @@ dependencies {
 
     //android.support.v4.app.Fragment;
     implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0")
+    implementation("com.google.android.material:material:1.0.0")
+
 
 }
 
