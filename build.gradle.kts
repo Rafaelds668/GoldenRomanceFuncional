@@ -7,16 +7,25 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.0" apply false
 }
 
+
 buildscript {
     //Nuevo
     repositories {
+        maven("https://jitpack.io")
         google()
+
     }
     dependencies {
         classpath("com.google.gms:google-services:4.4.0")
         //antes funciona
+        repositories{
+            maven("https://jitpack.io")
+        }
     }
+
 }
+
+
 
 
 

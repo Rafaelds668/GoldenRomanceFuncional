@@ -1,16 +1,19 @@
 <resources>
     <string name="app_name">Golden Romance</string>
-    <string-array name="services">
-        <item>Netflix</item>
-        <item>Amazon Prime</item>
-        <item>Hulu</item>
-        <item>Vudu</item>
-        <item>HBO Now</item>
-        <item>Youtube Originals</item>
-        <item>None</item>
-    </string-array>
-    <string name="fcm_message"> New Notification </string>
-    <string name="default_notification_channel_id">fcm_default_channel</string>
-    <string name="default_notification_channel_name">dafault</string>
-    <string name="title_activity_main2">MainActivity2</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dating">Dating</string>
+    <string name="message">Mensaje</string>
+    <string name="profile">Perfil</string>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
+
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+    <string name="reload">Reload</string>
+    <string name="add_spot_to_first">Add spot to first</string>
+    <string name="add_spot_to_last">Add spot to last</string>
+    <string name="remove_spot_from_first">Remove spot from first</string>
+    <string name="remove_spot_from_last">Remove spot from last</string>
+    <string name="replace_first_spot">Replace first spot</string>
+    <string name="swap_first_for_last">Swap first for last</string>
 </resources>

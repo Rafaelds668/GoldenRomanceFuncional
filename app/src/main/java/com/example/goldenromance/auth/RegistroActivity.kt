@@ -153,15 +153,4 @@ class RegistroActivity : AppCompatActivity() {
         finish()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-       when(item.itemId){
-          R.id.logout->{
-              mAuth.signOut()
-              val intent = Intent(this@RegistroActivity, LoginYRegistro::class.java)
-              startActivity(intent)
-              finish()
-          }
-       }
-        return super.onOptionsItemSelected(item)
-    }
 }

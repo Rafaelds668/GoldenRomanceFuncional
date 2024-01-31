@@ -27,12 +27,14 @@ class SplashScreenActivity : AppCompatActivity() {
         }, 1000)
     }
 
-        /*
+/*
         Handler().postDelayed({
             val intent = Intent(this@SplashScreenActivity, LoginYRegistro::class.java)
             startActivity(intent)
             finish()
         }, 1000)
         }
-        */
+
+
+ */
     }

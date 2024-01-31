@@ -1,3 +1,5 @@
+import java.util.regex.Pattern.compile
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -44,13 +46,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
 }
 
 
 
-
 dependencies {
+
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -68,6 +69,7 @@ dependencies {
 
 
     implementation ("com.google.firebase:firebase-auth:17.0.0")
+
 
     implementation ("com.google.firebase:firebase-storage:17.0.0")
     implementation ("com.google.firebase:firebase-messaging:19.0.0")
@@ -96,6 +98,11 @@ dependencies {
     //android.support.v4.app.Fragment;
     implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0")
     implementation("com.google.android.material:material:1.0.0")
+
+    //ui
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+
 
 
 }
