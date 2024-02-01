@@ -1,5 +1,5 @@
-##Golden Romance
-###Objetivo de la App: Es una aplicación que consiste en que las personas de avanzada edad puedan conocer a otras personas que tengan mismos gustos y tener un nuevo romance.
+#Golden Romance
+##Objetivo de la App: Es una aplicación que consiste en que las personas de avanzada edad puedan conocer a otras personas que tengan mismos gustos y tener un nuevo romance.
 ###Público dirigido: Personas de avanzada edad
 Link de la App:[https://drive.google.com/file/d/1x7pysWJ2egc8xGWMyjQ4-oCbADuKdjzu/view?usp=drive_link]
 
