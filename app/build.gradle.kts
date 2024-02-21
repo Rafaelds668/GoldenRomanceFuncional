@@ -103,10 +103,11 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
 
+    //noinspection GradleCompatible
+    compile("com.android.support:cardView-v7:26.0.0-alpha1")
 
 
 }
-
 
 
 

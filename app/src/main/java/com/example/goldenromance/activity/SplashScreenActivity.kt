@@ -19,15 +19,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
          val user = FirebaseAuth.getInstance().currentUser
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (user == null)
-                startActivity(Intent(this, LoginYRegistro::class.java))
-            else
-                startActivity(Intent(this, MainActivity::class.java))
-        }, 1000)
-    }
 
-/*
         Handler().postDelayed({
             val intent = Intent(this@SplashScreenActivity, LoginYRegistro::class.java)
             startActivity(intent)
@@ -36,5 +28,5 @@ class SplashScreenActivity : AppCompatActivity() {
         }
 
 
- */
+
     }

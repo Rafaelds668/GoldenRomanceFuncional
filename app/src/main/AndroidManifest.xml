@@ -21,7 +21,13 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".activity.MessageActivity"
+            android:name=".Chat.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Matches.MatchesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".auth.ForgetPasswordActivity"
@@ -31,15 +37,6 @@
             android:exported="false" />
         <activity
             android:name=".auth.LoginYRegistro"
-            android:exported="false" />
-        <activity
-            android:name=".activity.LoginYRegistro"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ForgetPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".auth.PerfilActivity"
             android:exported="false" />
         <activity
             android:name=".auth.LoginActivity"

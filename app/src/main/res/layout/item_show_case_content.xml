@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.example.goldenromance.implementaciones.showCaseView.widget.WrapWidthTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/showcase_text"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
