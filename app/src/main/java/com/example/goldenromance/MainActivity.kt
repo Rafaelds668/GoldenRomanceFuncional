@@ -1,5 +1,6 @@
 package com.example.goldenromance
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,8 @@ import com.example.goldenromance.Cards.cardsArrayAdapter
 import com.example.goldenromance.Cards.cards
 import com.example.goldenromance.Matches.MatchesActivity
 import com.example.goldenromance.auth.LoginYRegistro
+import com.example.goldenromance.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -29,11 +32,39 @@ class MainActivity : AppCompatActivity(){
     private lateinit var usersDb: DatabaseReference
     private lateinit var rowItems: MutableList<cards>
     private lateinit var cardsArrayAdapter: cardsArrayAdapter<cards>
+    private lateinit var binding: ActivityMainBinding
 
     // Método onCreate que se llama cuando se crea la actividad
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        binding.navBotton.setOnItemSelectedListener {item->
+//
+//            when (item.itemId) {
+//                R.id.ic_logout -> {
+//                    //Redirigir la actividad de inciio de sesion
+//                    val intent = Intent(this, LoginYRegistro::class.java)
+//                    startActivity(intent)
+//                    true
+//                }
+//
+//                R.id.ic_matches -> {
+//                    val intent = Intent(this, MatchesActivity::class.java)
+//                    startActivity(intent)
+//                    true
+//                }
+//
+//                R.id.ic_perfil -> {
+//                    val intent = Intent(this, SettingsActivity::class.java)
+//                    intent.putExtra("Profile_user_id", FirebaseAuth.getInstance().currentUser?.uid)
+//                    startActivity(intent)
+//                    true
+//                }
+//
+//                else -> false
+//            }
+//        }
 
         // Inicialización de Firebase Auth y DatabaseReference
         mAuth = FirebaseAuth.getInstance()
@@ -81,6 +112,8 @@ class MainActivity : AppCompatActivity(){
         flingContainer.setOnItemClickListener { _, _, _, _ ->
             Toast.makeText(this@MainActivity, "Item Clicked", Toast.LENGTH_SHORT).show()
         }
+
+
     }
 
     // Método para manejar el deslizamiento hacia la izquierda (dislike) de una tarjeta
