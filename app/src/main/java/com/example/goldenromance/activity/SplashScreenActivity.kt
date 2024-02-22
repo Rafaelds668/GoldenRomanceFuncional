@@ -19,12 +19,16 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val user = FirebaseAuth.getInstance().currentUser
 
+        // Crea un nuevo Handler para manejar la ejecución del código después de un retardo
         Handler().postDelayed({
+            // Crea un Intent para redirigir a la actividad MainActivity si el usuario está autenticado,
+            // de lo contrario, redirige a la actividad LoginYRegistro
             val intent = if (user != null) {
                 Intent(this@SplashScreenActivity, MainActivity::class.java)
             } else {
                 Intent(this@SplashScreenActivity, LoginYRegistro::class.java)
             }
+            // Inicia la actividad correspondiente y finaliza la actividad actual después de 1000 milisegundos (1 segundo)
             startActivity(intent)
             finish()
         }, 1000)

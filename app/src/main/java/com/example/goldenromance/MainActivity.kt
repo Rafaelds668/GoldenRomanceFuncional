@@ -23,76 +23,47 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView
 
 
 class MainActivity : AppCompatActivity(){
-    private lateinit var cardsData: Array<cards>
-    private lateinit var cardsArrayAdapter: cardsArrayAdapter<cards>
-    private var i: Int = 0
-
+    // Declaración de variables miembro
     private lateinit var mAuth: FirebaseAuth
     private lateinit var currentUId: String
     private lateinit var usersDb: DatabaseReference
-
-    private lateinit var listView: ListView
     private lateinit var rowItems: MutableList<cards>
-    private lateinit var al : ArrayList<String>
+    private lateinit var cardsArrayAdapter: cardsArrayAdapter<cards>
 
+    // Método onCreate que se llama cuando se crea la actividad
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        usersDb = FirebaseDatabase.getInstance().reference.child("Users")
-
+        // Inicialización de Firebase Auth y DatabaseReference
         mAuth = FirebaseAuth.getInstance()
         currentUId = mAuth.currentUser?.uid ?: ""
+        usersDb = FirebaseDatabase.getInstance().reference.child("Users")
 
+        // Verificar el género del usuario actual y obtener usuarios del sexo opuesto
         checkUserSex()
 
+        // Inicialización de la lista de tarjetas y su adaptador
         rowItems = ArrayList()
-
-
-
         cardsArrayAdapter = cardsArrayAdapter(this, R.layout.item, rowItems)
 
+        // Configuración del SwipeFlingAdapterView
         val flingContainer: SwipeFlingAdapterView = findViewById(R.id.frame)
-
         flingContainer.adapter = cardsArrayAdapter
         flingContainer.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
+            // Método llamado cuando se elimina el primer objeto en el adaptador
             override fun removeFirstObjectInAdapter() {
-                Log.d("LIST", "removed object!")
                 (rowItems as ArrayList<cards>).removeAt(0)
                 cardsArrayAdapter.notifyDataSetChanged()
-
             }
 
+            // Métodos llamados cuando una tarjeta es arrastrada hacia la izquierda o hacia la derecha
             override fun onLeftCardExit(dataObject: Any?) {
-                val obj = dataObject as cards
-                val userId = obj.userId
-                usersDb.child(userId!!).child("connections").child("nope").child(currentUId).setValue(true)
-                Toast.makeText(this@MainActivity, "DISLIKE", Toast.LENGTH_SHORT).show()
-
-                // Mostrar un banner cuando no hay tarjetas disponibles para mostrar
-                val tv = findViewById<TextView>(R.id.noCardsBanner)
-                if (rowItems.isEmpty()) {
-                    tv.visibility = View.VISIBLE
-                } else {
-                    tv.visibility = View.INVISIBLE
-                }
-
+                handleLeftSwipe(dataObject as cards)
             }
 
             override fun onRightCardExit(dataObject: Any?) {
-                val obj = dataObject as cards
-                val userId = obj.userId
-                usersDb.child(userId!!).child("connections").child("yeps").child(currentUId).setValue(true)
-                isConnectionMatch(userId)
-                Toast.makeText(this@MainActivity, "LIKE", Toast.LENGTH_SHORT).show()
-
-                // Mostrar un banner cuando no hay tarjetas disponibles para mostrar
-                val tv = findViewById<TextView>(R.id.noCardsBanner)
-                if (rowItems.isEmpty()) {
-                    tv.visibility = View.VISIBLE
-                } else {
-                    tv.visibility = View.INVISIBLE
-                }
+                handleRightSwipe(dataObject as cards)
             }
 
             override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {}
@@ -106,22 +77,39 @@ class MainActivity : AppCompatActivity(){
             }
         })
 
-        // Optionally add an OnItemClickListener
-        flingContainer.setOnItemClickListener(object : SwipeFlingAdapterView.OnItemClickListener {
-            override fun onItemClicked(itemPosition: Int, dataObject: Any) {
-                Toast.makeText(this@MainActivity, "Item Clicked", Toast.LENGTH_SHORT).show()
-            }
-        })
+        // Configuración del OnItemClickListener para el SwipeFlingAdapterView
+        flingContainer.setOnItemClickListener { _, _, _, _ ->
+            Toast.makeText(this@MainActivity, "Item Clicked", Toast.LENGTH_SHORT).show()
+        }
     }
-    private fun isConnectionMatch(userId: String) {
-        val currentUserConnectionsDb = usersDb.child(currentUId).child("connections").child("yeps").child(userId)
+
+    // Método para manejar el deslizamiento hacia la izquierda (dislike) de una tarjeta
+    private fun handleLeftSwipe(card: cards) {
+        usersDb.child(card.userId!!).child("connections").child("nope").child(currentUId).setValue(true)
+        Toast.makeText(this@MainActivity, "DISLIKE", Toast.LENGTH_SHORT).show()
+        checkNoCards()
+    }
+
+    // Método para manejar el deslizamiento hacia la derecha (like) de una tarjeta
+    private fun handleRightSwipe(card: cards) {
+        usersDb.child(card.userId!!).child("connections").child("yeps").child(currentUId).setValue(true)
+        isConnectionMatch(card.userId)
+        Toast.makeText(this@MainActivity, "LIKE", Toast.LENGTH_SHORT).show()
+        checkNoCards()
+    }
+
+    // Método para verificar si hay coincidencias entre usuarios
+    private fun isConnectionMatch(userId: String?) {
+        // Verificar si el usuario actual y el usuario especificado tienen un "yep" en común
+        val currentUserConnectionsDb = usersDb.child(currentUId).child("connections").child("yeps").child(userId!!)
         currentUserConnectionsDb.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
+                    // Si existe una conexión, mostrar un mensaje de coincidencia
                     Toast.makeText(this@MainActivity, "MATCH", Toast.LENGTH_LONG).show()
-
-                    val key = FirebaseDatabase.getInstance().getReference().child("Chat").push().key
-
+                    // Generar un ChatId único para la nueva conversación
+                    val key = FirebaseDatabase.getInstance().reference.child("Chat").push().key
+                    // Establecer los ChatId para ambos usuarios en la base de datos
                     usersDb.child(dataSnapshot.key!!).child("connections").child("matches").child(currentUId).child("ChatId").setValue(key)
                     usersDb.child(currentUId).child("connections").child("matches").child(dataSnapshot.key!!).child("ChatId").setValue(key)
                 }
@@ -131,22 +119,22 @@ class MainActivity : AppCompatActivity(){
         })
     }
 
+    // Método para verificar el sexo del usuario actual
     private var userSex: String? = null
     private var oppositeUserSex: String? = null
-
-    fun checkUserSex() {
+    private fun checkUserSex() {
+        // Obtener el género del usuario actual desde la base de datos
         val user = FirebaseAuth.getInstance().currentUser
         val userDb = usersDb.child(user!!.uid)
         userDb.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
+                    // Si el usuario tiene un género especificado en la base de datos, obtenerlo y definir el sexo opuesto
                     val sex = dataSnapshot.child("sex").getValue(String::class.java)
                     if (sex != null) {
                         userSex = sex
-                        when (userSex) {
-                            "Male" -> oppositeUserSex = "Female"
-                            "Female" -> oppositeUserSex = "Male"
-                        }
+                        oppositeUserSex = if (userSex == "Male") "Female" else "Male"
+                        // Obtener usuarios del sexo opuesto
                         getOppositeSexUsers()
                     }
                 }
@@ -156,23 +144,27 @@ class MainActivity : AppCompatActivity(){
         })
     }
 
-    fun getOppositeSexUsers() {
+    // Método para obtener usuarios del sexo opuesto
+    private fun getOppositeSexUsers() {
+        // Escuchar eventos de agregación de usuarios en la base de datos
         usersDb.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                if (dataSnapshot.child("sex").getValue(String::class.java) != null) {
-                    if (dataSnapshot.exists() &&
-                        !dataSnapshot.child("connections").child("nope").hasChild(currentUId) &&
-                        !dataSnapshot.child("connections").child("yeps").hasChild(currentUId) &&
-                        dataSnapshot.child("sex").getValue(String::class.java) == oppositeUserSex
-                    ) {
-                        var profileImageUrl = "default"
-                        if (dataSnapshot.child("profileImageUrl").getValue(String::class.java) != "default") {
-                            profileImageUrl = dataSnapshot.child("profileImageUrl").getValue(String::class.java)!!
-                        }
-                        val item = cards(dataSnapshot.key!!, dataSnapshot.child("name").getValue(String::class.java)!!, profileImageUrl)
-                        rowItems.add(item)
-                        cardsArrayAdapter.notifyDataSetChanged()
+                // Verificar si el usuario tiene un sexo especificado y es del sexo opuesto al usuario actual
+                if (dataSnapshot.child("sex").getValue(String::class.java) != null &&
+                    dataSnapshot.exists() &&
+                    !dataSnapshot.child("connections").child("nope").hasChild(currentUId) &&
+                    !dataSnapshot.child("connections").child("yeps").hasChild(currentUId) &&
+                    dataSnapshot.child("sex").getValue(String::class.java) == oppositeUserSex
+                ) {
+                    // Obtener la URL de la imagen de perfil del usuario
+                    var profileImageUrl = "default"
+                    if (dataSnapshot.child("profileImageUrl").getValue(String::class.java) != "default") {
+                        profileImageUrl = dataSnapshot.child("profileImageUrl").getValue(String::class.java)!!
                     }
+                    // Crear una tarjeta con la información del usuario y agregarla a la lista de tarjetas
+                    val item = cards(dataSnapshot.key!!, dataSnapshot.child("name").getValue(String::class.java)!!, profileImageUrl)
+                    rowItems.add(item)
+                    cardsArrayAdapter.notifyDataSetChanged()
                 }
             }
 
@@ -183,6 +175,7 @@ class MainActivity : AppCompatActivity(){
         })
     }
 
+    // Método para cerrar sesión del usuario actual
     fun logoutUser(view: View) {
         mAuth.signOut()
         val intent = Intent(this, LoginYRegistro::class.java)
@@ -190,14 +183,21 @@ class MainActivity : AppCompatActivity(){
         finish()
     }
 
+    // Método para ir a la pantalla de ajustes
     fun goToSettings(view: View) {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }
 
+    // Método para ir a la pantalla de matches
     fun goToMatches(view: View) {
         val intent = Intent(this, MatchesActivity::class.java)
         startActivity(intent)
     }
 
+    // Método para verificar si no hay más tarjetas disponibles para mostrar
+    private fun checkNoCards() {
+        val tv = findViewById<TextView>(R.id.noCardsBanner)
+        tv.visibility = if (rowItems.isEmpty()) View.VISIBLE else View.INVISIBLE
+    }
 }

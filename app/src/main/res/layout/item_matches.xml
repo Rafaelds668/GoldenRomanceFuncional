@@ -5,8 +5,8 @@
     android:orientation="horizontal"
     android:padding="20sp">
     <ImageView
-        android:layout_width="50sp"
-        android:layout_height="50sp"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
         android:src="@mipmap/ic_launcher"
         android:id="@+id/MatchImage"/>
 
@@ -20,16 +20,11 @@
         <TextView
             android:id="@+id/MatchName"
             android:layout_width="match_parent"
+            android:textSize="25sp"
             android:layout_height="wrap_content"
             android:paddingBottom="20sp"
             android:text="Match's Name" />
 
-        <TextView
-            android:id="@+id/Matchid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Match's ID" />
     </LinearLayout>
 
 

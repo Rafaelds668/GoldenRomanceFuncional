@@ -47,6 +47,7 @@
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="phone"
             android:clickable="false"
             android:hint="Numero" />
 
@@ -68,7 +69,7 @@
             android:id="@+id/confirm"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:textSize="10dp"
-            android:text="Editar Perfil"/>
+            android:text="Guardar Perfil"/>
         <com.google.android.material.button.MaterialButton
             android:layout_width="0dp"
             android:id="@+id/back"

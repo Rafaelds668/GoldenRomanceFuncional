@@ -32,15 +32,14 @@ import java.util.HashMap
 
 class SettingsActivity : AppCompatActivity() {
 
+    // Declaración de variables miembro
     private lateinit var mNameField: EditText
     private lateinit var mPhoneField: EditText
     private lateinit var mBack: Button
     private lateinit var mConfirm: Button
     private lateinit var mProfileImage: ImageView
-
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mUserDatabase: DatabaseReference
-
     private lateinit var userId: String
     private var name: String = ""
     private var phone: String = ""
@@ -48,38 +47,43 @@ class SettingsActivity : AppCompatActivity() {
     private var userSex: String = ""
     private var resultUri: Uri? = null
 
+    // Método onCreate que se llama cuando se crea la actividad
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        // Inicialización de vistas y Firebase
         mNameField = findViewById(R.id.name)
         mPhoneField = findViewById(R.id.phone)
         mProfileImage = findViewById(R.id.profileImage)
         mBack = findViewById(R.id.back)
         mConfirm = findViewById(R.id.confirm)
-
         mAuth = FirebaseAuth.getInstance()
         userId = mAuth.currentUser!!.uid
-
         mUserDatabase = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
 
+        // Obtener información del usuario
         getUserInfo()
 
+        // Configurar clic en la imagen de perfil para seleccionar una nueva imagen
         mProfileImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 1)
         }
 
+        // Guardar la información del usuario cuando se hace clic en el botón de confirmar
         mConfirm.setOnClickListener {
             saveUserInformation()
         }
 
+        // Volver a la actividad anterior cuando se hace clic en el botón de retroceso
         mBack.setOnClickListener {
             finish()
         }
     }
 
+    // Método para obtener información del usuario desde la base de datos
     private fun getUserInfo() {
         mUserDatabase.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -104,15 +108,29 @@ class SettingsActivity : AppCompatActivity() {
         })
     }
 
+    // Método para guardar la información del usuario en la base de datos
     private fun saveUserInformation() {
+        // Obtener nombre y teléfono del usuario
         name = mNameField.text.toString()
-        phone = mPhoneField.text.toString()
+        val phoneInput = mPhoneField.text.toString()
 
+        //Verificar si el numero de telefono tiene nueve digitos
+        if(phoneInput.length != 9){
+            //Mostrar el mensaje de error
+            mPhoneField.error = "El número de telefono debe ser de 9 digitos"
+            return
+        }
+
+        //Si el numero de telefono tiene 9 digitos, continuar con la actualizacion de la información del usuario
+        phone = phoneInput
+
+        // Actualizar la información del usuario en la base de datos
         val userInfo: MutableMap<String, Any> = HashMap()
         userInfo["name"] = name
         userInfo["phone"] = phone
         mUserDatabase.updateChildren(userInfo)
 
+        // Subir la imagen de perfil si se ha seleccionado una nueva
         if (resultUri != null) {
             val filepath = FirebaseStorage.getInstance().reference.child("profileImages").child(userId)
             var bitmap: Bitmap? = null
@@ -141,6 +159,7 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    // Método llamado cuando se completa una actividad iniciada para obtener una imagen de perfil
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
