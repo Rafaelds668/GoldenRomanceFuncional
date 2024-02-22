@@ -14,68 +14,67 @@ class MatchesActivity : AppCompatActivity() {
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mMatchesAdapter: RecyclerView.Adapter<*>
     private lateinit var mMatchesLayoutManager: RecyclerView.LayoutManager
-    private lateinit var cusrrentUserID: String
+
+    private lateinit var currentUserId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_marches)
 
-        cusrrentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+        currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
 
         mRecyclerView = findViewById(R.id.recyclerView)
         mRecyclerView.isNestedScrollingEnabled = false
         mRecyclerView.setHasFixedSize(true)
-        mMatchesLayoutManager = LinearLayoutManager(this@MatchesActivity)
+        mMatchesLayoutManager = LinearLayoutManager(this)
         mRecyclerView.layoutManager = mMatchesLayoutManager
-        mMatchesAdapter = MatchesAdapter(getDataSetMatches(), this@MatchesActivity)
+        mMatchesAdapter = MatchesAdapter(getDataSetMatches(), this)
         mRecyclerView.adapter = mMatchesAdapter
 
         getUserMatchId()
     }
+
     private fun getUserMatchId() {
-        val matchDb = FirebaseDatabase.getInstance().reference.child("Users").child(cusrrentUserID).child("connections").child("matches")
-        matchDb.addListenerForSingleValueEvent(object : ValueEventListener{
+        val matchDb = FirebaseDatabase.getInstance().reference.child("Users").child(currentUserId).child("connections").child("matches")
+        matchDb.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-               if (dataSnapshot.exists()){
-                   for (match in dataSnapshot.children){
-                       fetchMatchInformation(match.key!!)
-                   }
-               }
+                if (dataSnapshot.exists()) {
+                    for (match in dataSnapshot.children) {
+                        fetchMatchInformation(match.key)
+                    }
+                }
             }
 
-            override fun onCancelled(error: DatabaseError) {}
-
+            override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun fetchMatchInformation(key: String) {
-        val userDb = FirebaseDatabase.getInstance().reference.child("Users").child(key)
-        userDb.addListenerForSingleValueEvent(object : ValueEventListener{
+    private fun fetchMatchInformation(key: String?) {
+        val userDb = FirebaseDatabase.getInstance().reference.child("Users").child(key!!)
+        userDb.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if(dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     val userId = dataSnapshot.key
                     var name = ""
                     var profileImageUrl = ""
-                    if(dataSnapshot.child("name").value != null){
+                    if (dataSnapshot.child("name").value != null) {
                         name = dataSnapshot.child("name").value.toString()
                     }
-                    if (dataSnapshot.child("profileImageUrl").value != null){
+                    if (dataSnapshot.child("profileImageUrl").value != null) {
                         profileImageUrl = dataSnapshot.child("profileImageUrl").value.toString()
                     }
-
                     val obj = MatchesObject(userId.toString(), name, profileImageUrl)
-                    resultMatches.add(obj)
+                    resultsMatches.add(obj)
                     mMatchesAdapter.notifyDataSetChanged()
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {}
-
+            override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private val resultMatches = ArrayList<MatchesObject>()
+    private val resultsMatches: ArrayList<MatchesObject> = ArrayList()
     private fun getDataSetMatches(): List<MatchesObject> {
-        return resultMatches
+        return resultsMatches
     }
 }

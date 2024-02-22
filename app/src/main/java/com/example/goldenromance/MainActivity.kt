@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.goldenromance.Cards.cardsArrayAdapter
@@ -66,7 +67,16 @@ class MainActivity : AppCompatActivity(){
                 val obj = dataObject as cards
                 val userId = obj.userId
                 usersDb.child(userId!!).child("connections").child("nope").child(currentUId).setValue(true)
-                Toast.makeText(this@MainActivity, "NO", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "DISLIKE", Toast.LENGTH_SHORT).show()
+
+                // Mostrar un banner cuando no hay tarjetas disponibles para mostrar
+                val tv = findViewById<TextView>(R.id.noCardsBanner)
+                if (rowItems.isEmpty()) {
+                    tv.visibility = View.VISIBLE
+                } else {
+                    tv.visibility = View.INVISIBLE
+                }
+
             }
 
             override fun onRightCardExit(dataObject: Any?) {
@@ -74,11 +84,26 @@ class MainActivity : AppCompatActivity(){
                 val userId = obj.userId
                 usersDb.child(userId!!).child("connections").child("yeps").child(currentUId).setValue(true)
                 isConnectionMatch(userId)
-                Toast.makeText(this@MainActivity, "YES", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "LIKE", Toast.LENGTH_SHORT).show()
+
+                // Mostrar un banner cuando no hay tarjetas disponibles para mostrar
+                val tv = findViewById<TextView>(R.id.noCardsBanner)
+                if (rowItems.isEmpty()) {
+                    tv.visibility = View.VISIBLE
+                } else {
+                    tv.visibility = View.INVISIBLE
+                }
             }
 
             override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {}
-            override fun onScroll(scrollProgressPercent: Float) {}
+            override fun onScroll(scrollProgressPercent: Float) {
+                val view = flingContainer?.selectedView
+                val rightIndicator = view?.findViewById<View>(R.id.item_swipe_right_indicator)
+                val leftIndicator = view?.findViewById<View>(R.id.item_swipe_left_indicator)
+
+                rightIndicator?.alpha = if (scrollProgressPercent != 0f && scrollProgressPercent < 0) -scrollProgressPercent else 0f
+                leftIndicator?.alpha = if (scrollProgressPercent != 0f && scrollProgressPercent > 0) scrollProgressPercent else 0f
+            }
         })
 
         // Optionally add an OnItemClickListener
@@ -93,7 +118,7 @@ class MainActivity : AppCompatActivity(){
         currentUserConnectionsDb.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Toast.makeText(this@MainActivity, "new Connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivity, "MATCH", Toast.LENGTH_LONG).show()
 
                     val key = FirebaseDatabase.getInstance().getReference().child("Chat").push().key
 

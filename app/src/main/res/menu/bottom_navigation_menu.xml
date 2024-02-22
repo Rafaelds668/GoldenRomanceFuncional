@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_item1"
+        android:title="LOGOUT"
+        android:icon="@drawable/logout" />
+    <item
+        android:id="@+id/navigation_item2"
+        android:title="MATCHES"
+        android:icon="@drawable/chat_matches" />
+    <item
+        android:id="@+id/navigation_item3"
+        android:title="PERFIL"
+        android:icon="@drawable/profile" />
+</menu>

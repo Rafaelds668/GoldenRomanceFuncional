@@ -7,37 +7,77 @@
     tools:context=".SettingsActivity"
     android:orientation="vertical"
     android:padding="20sp">
-    <ImageView
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        android:id="@+id/profileImage"
-        android:src="@mipmap/ic_launcher"
-        android:layout_marginBottom="20sp" />
-    <EditText
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/name"
-        android:background="@null"
-        android:hint="Name"
-        android:layout_marginBottom="20sp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/phone"
-        android:background="@null"
-        android:hint="Phone"
-        android:layout_marginBottom="20sp"
-        android:inputType="phone"/>
+        android:background="@color/red"
+        android:layout_height="200dp">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/confirm"
-        android:text="confirm"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/back"
-        android:text="back"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:rotation="0"
+            android:src="@drawable/profile" />
+    </RelativeLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:hint="Nombre" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:hint="Numero" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="24dp"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/confirm"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:textSize="10dp"
+            android:text="Editar Perfil"/>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp"
+            android:id="@+id/back"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:textSize="10dp"
+            android:layout_weight="1"
+            android:text="Atras"/>
+
+    </LinearLayout>
 </LinearLayout>

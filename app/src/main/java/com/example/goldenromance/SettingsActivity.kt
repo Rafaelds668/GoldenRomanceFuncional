@@ -1,39 +1,51 @@
 package com.example.goldenromance
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.goldenromance.databinding.ActivitySettingsBinding
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.util.HashMap
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var mNameField: EditText
     private lateinit var mPhoneField: EditText
-    private lateinit var mProfileImage: ImageView
     private lateinit var mBack: Button
     private lateinit var mConfirm: Button
+    private lateinit var mProfileImage: ImageView
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mUserDatabase: DatabaseReference
 
     private lateinit var userId: String
-    private lateinit var name: String
-    private lateinit var phone: String
-    private lateinit var profileImageUrl: String
-    private lateinit var userSex: String
+    private var name: String = ""
+    private var phone: String = ""
+    private var profileImageUrl: String = ""
+    private var userSex: String = ""
     private var resultUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +77,6 @@ class SettingsActivity : AppCompatActivity() {
 
         mBack.setOnClickListener {
             finish()
-            return@setOnClickListener
         }
     }
 
@@ -73,7 +84,7 @@ class SettingsActivity : AppCompatActivity() {
         mUserDatabase.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
-                    val map = dataSnapshot.value as Map<*, *>
+                    val map: Map<String, Any> = dataSnapshot.value as Map<String, Any>
                     name = map["name"].toString()
                     mNameField.setText(name)
                     phone = map["phone"].toString()
@@ -82,8 +93,8 @@ class SettingsActivity : AppCompatActivity() {
                     if (map["profileImageUrl"] != null) {
                         profileImageUrl = map["profileImageUrl"].toString()
                         when (profileImageUrl) {
-                            "default" -> Glide.with(applicationContext).load(R.mipmap.ic_launcher).into(mProfileImage)
-                            else -> Glide.with(applicationContext).load(profileImageUrl).into(mProfileImage)
+                            "default" -> Glide.with(application).load(R.mipmap.ic_launcher).into(mProfileImage)
+                            else -> Glide.with(application).load(profileImageUrl).into(mProfileImage)
                         }
                     }
                 }
@@ -97,7 +108,7 @@ class SettingsActivity : AppCompatActivity() {
         name = mNameField.text.toString()
         phone = mPhoneField.text.toString()
 
-        val userInfo = HashMap<String, Any>()
+        val userInfo: MutableMap<String, Any> = HashMap()
         userInfo["name"] = name
         userInfo["phone"] = phone
         mUserDatabase.updateChildren(userInfo)
@@ -116,16 +127,15 @@ class SettingsActivity : AppCompatActivity() {
             val data = baos.toByteArray()
             val uploadTask = filepath.putBytes(data)
             uploadTask.addOnFailureListener { finish() }
-            uploadTask.addOnSuccessListener(OnSuccessListener { taskSnapshot ->
-                val downloadUrl = taskSnapshot.storage.downloadUrl
-
-                val userInfo = HashMap<String, Any>()
-                userInfo["profileImageUrl"] = downloadUrl.toString()
-                mUserDatabase.updateChildren(userInfo)
-
-                finish()
-                return@OnSuccessListener
-            })
+            uploadTask.addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener { uri ->
+                    val downloadUrl = uri.toString()
+                    val userInfo: MutableMap<String, Any> = HashMap()
+                    userInfo["profileImageUrl"] = downloadUrl
+                    mUserDatabase.updateChildren(userInfo)
+                    finish()
+                }
+            }
         } else {
             finish()
         }
