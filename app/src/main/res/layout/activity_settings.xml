@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:clickable="false"
-            android:hint="Numero" />
+            android:hint="Numero De Telefono" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

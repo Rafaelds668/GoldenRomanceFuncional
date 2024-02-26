@@ -1,4 +1,5 @@
 package com.example.goldenromance.Chat
 
-class ChatObject {
+class ChatObject (var message: String, var  isCurrentUser: Boolean) {
+
 }
